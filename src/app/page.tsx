@@ -20,14 +20,19 @@ interface Experience {
 
 const experiences: Experience[] = [
   {
+    title: 'Tech Fellow (AI301)',
+    company: 'CodePath',
+    period: 'Sep 2026 – Present',
+  },
+  {
     title: 'Software Engineer Intern',
     company: 'Capital One',
     period: 'June 2026 – Aug 2026',
   },
   {
-    title: 'Tech Fellow',
+    title: 'Tech Fellow (TIP101/102)',
     company: 'CodePath',
-    period: 'Aug 2025 – April 2026',
+    period: 'Sep 2025 – April 2026',
   },
   {
     title: 'Software Engineer Intern',

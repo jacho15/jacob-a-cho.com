@@ -12,6 +12,11 @@ export const projects: Project[] = [
     description: 'Baremetal OS built with C and Assembly.',
   },
   {
+    name: '2048 on FPGA',
+    link: 'https://github.com/jacho15/ee354-final-project-2048',
+    description: 'A hardware implementation of the classic 2048 puzzle game in Verilog, featuring VGA display output and accelerometer-based tilt controls.',
+  },
+  {
     name: 'Muffin Time',
     link: 'https://muffin-time.vercel.app/',
     description: 'Productivity app with pomodoro and time tracking while combining Notion and Google calendar for event tracking.'
