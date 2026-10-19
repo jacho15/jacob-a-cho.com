@@ -21,6 +21,12 @@ export const projects: Project[] = [
     badge: '2nd Place Software Track - IEEE Minimalist AI Hackathon',
   },
   {
+    name: 'UNO Q Pipeline',
+    category: 'personal',
+    link: 'https://github.com/jacho15/uno_q_pipeline',
+    description: 'Low-power smart camera on an Arduino UNO Q that sleeps until motion wakes it, using up to 49% less energy than an always-on camera.',
+  },
+  {
     name: 'JacobOS',
     category: 'personal',
     link: 'https://jacho15.github.io/JacobOS/',
