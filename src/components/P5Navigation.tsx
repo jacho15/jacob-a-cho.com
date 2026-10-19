@@ -1,11 +1,10 @@
 'use client'
 
-import { FaGithub, FaLinkedin } from 'react-icons/fa'
-import { SiDevpost } from 'react-icons/si'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { useTheme } from '@/context/ThemeContext'
 import { useActiveSection } from '@/hooks/useActiveSection'
+import { socialLinks } from '@/lib/socials'
 import BattleMenu from './BattleMenu'
 
 const navItems = [
@@ -13,12 +12,6 @@ const navItems = [
   { href: '#experience', id: 'experience', label: 'EXPERIENCE' },
   { href: '#projects',   id: 'projects',   label: 'PROJECTS' },
   { href: '#contact',    id: 'contact',    label: 'CONTACT' },
-]
-
-const socialLinks = [
-  { href: 'https://github.com/jacho15', icon: FaGithub, hoverRotate: 5 },
-  { href: 'https://www.linkedin.com/in/jacob-a-cho/', icon: FaLinkedin, hoverRotate: -5 },
-  { href: 'https://devpost.com/jacho15', icon: SiDevpost, hoverRotate: 5 },
 ]
 
 export default function P5Navigation() {
@@ -68,6 +61,7 @@ export default function P5Navigation() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={social.label}
                   className="text-p5-white hover:text-p5-red transition-colors text-xl md:text-2xl"
                 >
                   <social.icon />

@@ -48,10 +48,9 @@ export default function TechArsenal() {
     return (
       <section className="py-16 md:py-20">
         <div className="container">
-          <div>
+          <div className="rw-group">
             <span className="rw-section-label">Skills</span>
-            <hr className="rw-rule" />
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 pt-2.5">
               {techData.map(cat => (
                 <div key={cat.title} className="rw-skills-block">
                   <span className="rw-skills-category">{cat.title.charAt(0) + cat.title.slice(1).toLowerCase()}</span>

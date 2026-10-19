@@ -455,6 +455,29 @@ body {
   @apply bg-p5-red-dark;
 }
 
+/* Social badges (metaverse side menu + mobile menu) */
+[data-theme="metaverse"] .p5-social-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  color: #fafafa;
+  background: #0d0d0d;
+  border: 2px solid #fafafa;
+  box-shadow: 3px 3px 0 0 rgb(216 0 39);
+  transform: rotate(var(--badge-rot)) skewX(-8deg);
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.12s ease, box-shadow 0.12s ease;
+}
+
+[data-theme="metaverse"] .p5-social-badge:hover,
+[data-theme="metaverse"] .p5-social-badge:focus-visible {
+  background: rgb(216 0 39);
+  box-shadow: 3px 3px 0 0 #fafafa;
+  transform: rotate(calc(var(--badge-rot) * -1.8)) skewX(-8deg) scale(1.2);
+}
+
 /* ============================================
    REAL WORLD OVERRIDES (default, non-metaverse)
    ============================================ */
@@ -642,6 +665,10 @@ body {
    REAL WORLD — minimal single-page layout
    ============================================ */
 
+html:not([data-theme='metaverse']) .container {
+  max-width: 50rem;
+}
+
 .rw-section-label {
   display: block;
   font-family: 'Inter', sans-serif;
@@ -653,55 +680,101 @@ body {
   margin-bottom: 0.875rem;
 }
 
-.rw-rule {
-  border: none;
-  border-top: 1px solid rgba(var(--color-p5-white), 0.1);
-  margin: 0 0 2.5rem 0;
-}
-
-.rw-rule-thin {
-  border: none;
-  border-top: 1px solid rgba(var(--color-p5-white), 0.06);
-  margin: 1.75rem 0;
-}
-
-.rw-exp-row {
+.rw-group {
   display: grid;
   grid-template-columns: 10rem 1fr;
-  gap: 0 2.5rem;
+  column-gap: 2.5rem;
   align-items: start;
 }
 
+.rw-group + .rw-group {
+  margin-top: 3rem;
+}
+
+.rw-group > .rw-section-label {
+  margin-bottom: 0;
+  padding-top: 0.8rem;
+}
+
 @media (max-width: 640px) {
-  .rw-exp-row {
+  .rw-group {
     grid-template-columns: 1fr;
-    gap: 0.25rem;
+  }
+
+  .rw-group > .rw-section-label {
+    padding-top: 0;
+    margin-bottom: 0.5rem;
   }
 }
 
+.rw-row {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  column-gap: 0.75rem;
+  align-items: center;
+  padding: 0.625rem 0;
+}
+
+.rw-row--plain {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+}
+
+@media (max-width: 640px) {
+  .rw-row {
+    grid-template-columns: 20px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .rw-row--plain {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .rw-row > .rw-period {
+    grid-column: 2;
+  }
+}
+
+.rw-logo {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
 .rw-period {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.75rem;
   color: rgba(var(--color-p5-white), 0.35);
-  padding-top: 0.3rem;
   white-space: nowrap;
-  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .rw-period {
+    text-align: left;
+  }
 }
 
 .rw-company {
-  display: block;
   font-family: 'Playfair Display', serif;
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 700;
   color: rgb(var(--color-p5-white));
   line-height: 1.25;
 }
 
 .rw-role {
-  display: block;
   font-size: 0.8125rem;
   color: rgba(var(--color-p5-white), 0.5);
-  margin-top: 0.125rem;
-  margin-bottom: 0.5rem;
+  margin-left: 0.625rem;
+}
+
+@media (max-width: 640px) {
+  .rw-role {
+    display: block;
+    margin-left: 0;
+  }
 }
 
 .rw-location {
@@ -730,7 +803,6 @@ body {
   border: 1px solid rgba(var(--color-p5-white), 0.18);
   padding: 0.125rem 0.5rem;
   border-radius: 2px;
-  margin-bottom: 0.375rem;
 }
 
 .rw-skills-block {
@@ -753,30 +825,37 @@ body {
   color: rgba(var(--color-p5-white), 0.7);
 }
 
-.rw-project-row {
-  display: flex;
-  align-items: baseline;
-  gap: 1.25rem;
-}
-
 .rw-project-name {
   font-family: 'Playfair Display', serif;
-  font-size: 1.0625rem;
+  font-size: 1rem;
   font-weight: 700;
-  white-space: nowrap;
   color: rgb(var(--color-p5-white));
   text-decoration: none;
   transition: opacity 0.15s;
 }
 
-.rw-project-name:hover {
+a.rw-project-name:hover {
   opacity: 0.6;
+}
+
+.rw-project-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.625rem;
+}
+
+.rw-award-tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  padding: 0.0625rem 0.4rem;
 }
 
 .rw-project-desc {
   font-size: 0.8125rem;
-  color: rgba(var(--color-p5-white), 0.42);
-  flex: 1;
+  line-height: 1.55;
+  color: rgba(var(--color-p5-white), 0.5);
+  margin-top: 0.375rem;
 }
 
 .rw-project-link {

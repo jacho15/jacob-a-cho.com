@@ -13,13 +13,12 @@ export const ENTER_METAVERSE_MS = 1600
 export default function SlashTransition() {
   const { isMetaverse } = useTheme()
   const [isAnimating, setIsAnimating] = useState(false)
-  const mountedRef = useRef(false)
+  const prevIsMetaverseRef = useRef(isMetaverse)
 
+  // Only animate on an actual theme switch, never on initial load
   useEffect(() => {
-    if (!mountedRef.current) {
-      mountedRef.current = true
-      return
-    }
+    if (prevIsMetaverseRef.current === isMetaverse) return
+    prevIsMetaverseRef.current = isMetaverse
     setIsAnimating(true)
     const timer = setTimeout(() => setIsAnimating(false), isMetaverse ? ENTER_METAVERSE_MS : 800)
     return () => clearTimeout(timer)

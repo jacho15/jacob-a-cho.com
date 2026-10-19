@@ -2,12 +2,13 @@
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import Image from 'next/image'
 import { FaExternalLinkAlt, FaPaperPlane } from 'react-icons/fa'
 import { useTheme } from '@/context/ThemeContext'
 import TechArsenal from '@/components/TechArsenal'
 import RansomText from '@/components/p5/RansomText'
 import TornDivider from '@/components/p5/TornDivider'
-import { projects } from '@/lib/projects'
+import { projects, type Project } from '@/lib/projects'
 
 // ─── Experience data ──────────────────────────────────────────────────────────
 
@@ -15,6 +16,7 @@ interface Experience {
   title: string
   company: string
   period: string
+  logo: string
   upcoming?: boolean
 }
 
@@ -23,34 +25,51 @@ const experiences: Experience[] = [
     title: 'Tech Fellow (AI301)',
     company: 'CodePath',
     period: 'Sep 2026 – Present',
+    logo: '/logos/codepath.png',
+  },
+  {
+    title: 'Undergraduate Researcher (FPGA)',
+    company: 'USC Viterbi',
+    period: 'Sep 2026 – Present',
+    logo: '/logos/usc-viterbi.png',
   },
   {
     title: 'Software Engineer Intern',
     company: 'Capital One',
     period: 'June 2026 – Aug 2026',
+    logo: '/logos/capital-one.png',
   },
   {
     title: 'Tech Fellow (TIP101/102)',
     company: 'CodePath',
     period: 'Sep 2025 – April 2026',
+    logo: '/logos/codepath.png',
   },
   {
     title: 'Software Engineer Intern',
     company: 'Coursistant',
     period: 'May 2025 – Aug 2025',
+    logo: '/logos/coursistant.png',
   },
   {
     title: 'Software Engineer Intern',
     company: 'Advanced RF Technologies',
     period: 'May 2022 – Jul 2022',
+    logo: '/logos/adrf.png',
   },
 ]
 
-const leadership = {
-  title: 'Vice President',
-  company: 'USC KSEA',
-  period: 'Aug 2024 – Present',
-}
+const involvements: Experience[] = [
+  {
+    title: 'Vice President',
+    company: 'USC KSEA',
+    period: 'Aug 2024 – Present',
+    logo: '/logos/ksea.png',
+  },
+]
+
+const hackathonProjects = projects.filter(p => p.category === 'hackathon')
+const personalProjects = projects.filter(p => p.category === 'personal')
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
@@ -60,6 +79,152 @@ const staffTilts = [-2.5, 1.8, -1.2, 2.4, -1.8]
 const cardVariantsReal = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+}
+
+function StaffCard({ item, index, tilt, rank }: { item: Experience; index: number; tilt: number; rank?: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 60, rotate: -8 }}
+      whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+      viewport={{ once: true }}
+      transition={{ type: 'spring', stiffness: 260, damping: 20, delay: index * 0.08 }}
+    >
+      <div className="p5-staff-wrap h-full" style={{ transform: `rotate(${tilt}deg)` }}>
+        <div className="p5-staff-card pl-7 pr-[4.5rem] pt-9 pb-6 h-full">
+          {/* Company logo, top-right corner */}
+          <Image
+            src={item.logo}
+            alt=""
+            width={44}
+            height={44}
+            className="absolute top-3 right-4 w-11 h-11 border-2 border-[#0d0d0d] rotate-6 bg-[#fafafa]"
+          />
+          {/* Big faded rank number */}
+          {rank && (
+            <span
+              className="absolute right-3 bottom-1 font-heading italic leading-none select-none pointer-events-none"
+              style={{ fontSize: '4.5rem', color: 'rgba(216, 0, 39, 0.12)' }}
+            >
+              {rank}
+            </span>
+          )}
+          <RansomText text={item.company} className="text-xl md:text-2xl" delay={0.12} />
+          <div className="mt-4 p5-eyebrow text-sm text-[#0d0d0d]/60">{item.period}</div>
+        </div>
+        <span className="p5-staff-tag">{item.title}</span>
+        {item.upcoming && (
+          <span className="p5-staff-tag" style={{ left: 'auto', right: '1.1rem', background: '#0d0d0d' }}>
+            ★ UPCOMING
+          </span>
+        )}
+      </div>
+    </motion.div>
+  )
+}
+
+function RealWorldRows({ label, items }: { label: string; items: Experience[] }) {
+  return (
+    <div className="rw-group">
+      <span className="rw-section-label">{label}</span>
+      <div>
+        {items.map(item => (
+          <div key={`${item.company}-${item.title}-${item.period}`} className="rw-row">
+            <Image src={item.logo} alt="" width={20} height={20} className="rw-logo" />
+            <div>
+              {item.upcoming && <span className="rw-upcoming-tag mr-2">Upcoming</span>}
+              <span className="rw-company">{item.company}</span>
+              <span className="rw-role">{item.title}</span>
+            </div>
+            <span className="rw-period">{item.period}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function RealWorldProjects({ label, items }: { label: string; items: Project[] }) {
+  return (
+    <div className="rw-group">
+      <span className="rw-section-label">{label}</span>
+      <div>
+        {items.map(project => (
+          <div key={project.name} className="rw-row rw-row--plain">
+            <div>
+              <div className="rw-project-title">
+                {project.link ? (
+                  <a href={project.link} target="_blank" rel="noopener noreferrer" className="rw-project-name">
+                    {project.name}
+                  </a>
+                ) : (
+                  <span className="rw-project-name">{project.name}</span>
+                )}
+                {project.badge && (
+                  <span className="rw-upcoming-tag rw-award-tag">{project.badge}</span>
+                )}
+              </div>
+              <p className="rw-project-desc">{project.description}</p>
+            </div>
+            {project.link && (
+              <a href={project.link} target="_blank" rel="noopener noreferrer" className="rw-project-link" aria-label={`Open ${project.name}`}>
+                ↗
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const content = (
+    <>
+      {/* Diagonal striped band with name slab */}
+      <div className="p5-cutin-band h-11 relative">
+        <span
+          className="absolute left-4 -bottom-4 bg-[#FAFAFA] text-[#0d0d0d] font-heading italic text-lg md:text-xl uppercase tracking-wider px-3 py-1 border-2 border-[#0d0d0d] -rotate-2"
+          style={{ boxShadow: '4px 4px 0 rgb(216 0 39)' }}
+        >
+          {project.name}
+        </span>
+      </div>
+      <div className="px-6 pt-10 pb-6" style={{ transform: 'skewX(4deg)' }}>
+        {project.badge && (
+          <div className="inline-block mb-3 px-2.5 py-0.5 bg-p5-red text-p5-white font-display text-xs tracking-widest border border-p5-white transform skew-x-[-6deg]">
+            ★ {project.badge.toUpperCase()}
+          </div>
+        )}
+        <p className={`text-p5-white/70 text-sm leading-snug ${project.link ? 'mb-4' : ''}`}>{project.description}</p>
+        {project.link && (
+          <div className="flex items-center gap-2 text-p5-red font-heading tracking-wider text-sm">
+            <span>VIEW PROJECT</span>
+            <FaExternalLinkAlt className="text-xs group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+          </div>
+        )}
+      </div>
+    </>
+  )
+
+  return (
+    <motion.div
+      className="group"
+      initial={{ opacity: 0, y: 70, rotate: -6 }}
+      whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+      viewport={{ once: true }}
+      transition={{ type: 'spring', stiffness: 240, damping: 22, delay: index * 0.07 }}
+    >
+      <div className={`p5-cutin h-full ${project.link ? '' : 'pointer-events-none'}`}>
+        {project.link ? (
+          <a href={project.link} target="_blank" rel="noopener noreferrer" className="block h-full">
+            {content}
+          </a>
+        ) : (
+          content
+        )}
+      </div>
+    </motion.div>
+  )
 }
 
 function HeroButtons({ isMetaverse, toggleTheme }: { isMetaverse: boolean; toggleTheme: () => void }) {
@@ -228,99 +393,43 @@ export default function Home() {
           {isMetaverse ? (
             <>
               <h2>
-                <RansomText text="EXPERIENCE" className="text-4xl md:text-6xl" />
+                <RansomText text="EXPERIENCE" className="text-4xl lg:text-6xl" />
               </h2>
 
-              <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-16">
+              <div className="mt-20 grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-16">
                 {experiences.map((exp, index) => (
-                  <motion.div
-                    key={`${exp.company}-${exp.period}`}
-                    initial={{ opacity: 0, y: 60, rotate: -8 }}
-                    whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ type: 'spring', stiffness: 260, damping: 20, delay: index * 0.08 }}
-                  >
-                    <div
-                      className="p5-staff-wrap h-full"
-                      style={{ transform: `rotate(${staffTilts[index % staffTilts.length]}deg)` }}
-                    >
-                      <div className="p5-staff-card px-7 pt-9 pb-6 h-full">
-                        {/* Big faded rank number */}
-                        <span
-                          className="absolute right-3 bottom-1 font-heading italic leading-none select-none pointer-events-none"
-                          style={{ fontSize: '4.5rem', color: 'rgba(216, 0, 39, 0.12)' }}
-                        >
-                          {String(experiences.length - index).padStart(2, '0')}
-                        </span>
-                        <RansomText text={exp.company} className="text-xl md:text-2xl" delay={0.12} />
-                        <div className="mt-4 p5-eyebrow text-sm text-[#0d0d0d]/60">{exp.period}</div>
-                      </div>
-                      <span className="p5-staff-tag">{exp.title}</span>
-                      {exp.upcoming && (
-                        <span className="p5-staff-tag" style={{ left: 'auto', right: '1.1rem', background: '#0d0d0d' }}>
-                          ★ UPCOMING
-                        </span>
-                      )}
-                    </div>
-                  </motion.div>
+                  <StaffCard
+                    key={`${exp.company}-${exp.title}-${exp.period}`}
+                    item={exp}
+                    index={index}
+                    tilt={staffTilts[index % staffTilts.length]}
+                    rank={String(experiences.length - index).padStart(2, '0')}
+                  />
                 ))}
               </div>
 
-              {/* Leadership — metaverse */}
+              {/* Involvements — metaverse */}
               <div className="mt-28">
                 <h2>
-                  <RansomText text="LEADERSHIP" className="text-4xl md:text-6xl" />
+                  <RansomText text="INVOLVEMENTS" className="text-4xl lg:text-6xl" />
                 </h2>
-                <motion.div
-                  className="mt-16 max-w-xl"
-                  initial={{ opacity: 0, y: 60, rotate: -8 }}
-                  whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.1 }}
-                >
-                  <div className="p5-staff-wrap" style={{ transform: 'rotate(-1.5deg)' }}>
-                    <div className="p5-staff-card px-7 pt-9 pb-6">
-                      <RansomText text={leadership.company} className="text-xl md:text-2xl" delay={0.12} />
-                      <div className="mt-4 p5-eyebrow text-sm text-[#0d0d0d]/60">{leadership.period}</div>
-                    </div>
-                    <span className="p5-staff-tag">{leadership.title}</span>
-                  </div>
-                </motion.div>
+                <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-16">
+                  {involvements.map((item, index) => (
+                    <StaffCard
+                      key={`${item.company}-${item.title}-${item.period}`}
+                      item={item}
+                      index={index}
+                      tilt={staffTilts[(index + 2) % staffTilts.length]}
+                    />
+                  ))}
+                </div>
               </div>
             </>
           ) : (
             /* Real world experience */
             <div>
-              <span className="rw-section-label">Experience</span>
-              <hr className="rw-rule" />
-              <div className="space-y-0">
-                {experiences.map((exp, i) => (
-                  <div key={`${exp.company}-${exp.period}`}>
-                    <div className="rw-exp-row">
-                      <span className="rw-period">{exp.period}</span>
-                      <div>
-                        {exp.upcoming && <span className="rw-upcoming-tag">Upcoming</span>}
-                        <span className="rw-company">{exp.company}</span>
-                        <span className="rw-role">{exp.title}</span>
-                      </div>
-                    </div>
-                    {i < experiences.length - 1 && <hr className="rw-rule-thin" />}
-                  </div>
-                ))}
-              </div>
-
-              {/* Leadership — real world */}
-              <div className="mt-12 pt-4">
-                <span className="rw-section-label">Leadership</span>
-                <hr className="rw-rule" />
-              </div>
-              <div className="rw-exp-row">
-                <span className="rw-period">{leadership.period}</span>
-                <div>
-                  <span className="rw-company">{leadership.company}</span>
-                  <span className="rw-role">{leadership.title}</span>
-                </div>
-              </div>
+              <RealWorldRows label="Experience" items={experiences} />
+              <RealWorldRows label="Involvements" items={involvements} />
             </div>
           )}
         </div>
@@ -339,73 +448,28 @@ export default function Home() {
               <h2>
                 <RansomText text="PROJECT MEMENTOS" className="text-4xl md:text-6xl" />
               </h2>
-              <div className="mt-20 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-2 pb-6">
-                {projects.map((project, index) => (
-                  <motion.div
-                    key={project.name}
-                    className="group"
-                    initial={{ opacity: 0, y: 70, rotate: -6 }}
-                    whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ type: 'spring', stiffness: 240, damping: 22, delay: index * 0.07 }}
-                  >
-                    <div className="p5-cutin h-full">
-                      <a href={project.link} target="_blank" rel="noopener noreferrer" className="block h-full">
-                        {/* Diagonal striped band with name slab */}
-                        <div className="p5-cutin-band h-11 relative">
-                          <span
-                            className="absolute left-4 -bottom-4 bg-[#FAFAFA] text-[#0d0d0d] font-heading italic text-lg md:text-xl uppercase tracking-wider px-3 py-1 border-2 border-[#0d0d0d] -rotate-2"
-                            style={{ boxShadow: '4px 4px 0 rgb(216 0 39)' }}
-                          >
-                            {project.name}
-                          </span>
-                        </div>
-                        <div className="px-6 pt-10 pb-6" style={{ transform: 'skewX(4deg)' }}>
-                          {project.badge && (
-                            <div className="inline-block mb-3 px-2.5 py-0.5 bg-p5-red text-p5-white font-display text-xs tracking-widest border border-p5-white transform skew-x-[-6deg]">
-                              ★ {project.badge.toUpperCase()}
-                            </div>
-                          )}
-                          <p className="text-p5-white/70 text-sm mb-4 leading-snug">{project.description}</p>
-                          <div className="flex items-center gap-2 text-p5-red font-heading tracking-wider text-sm">
-                            <span>VIEW PROJECT</span>
-                            <FaExternalLinkAlt className="text-xs group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  </motion.div>
+              <h3 className="mt-20">
+                <RansomText text="HACKATHON WINS" className="text-2xl md:text-4xl" />
+              </h3>
+              <div className="mt-14 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-2 pb-6">
+                {hackathonProjects.map((project, index) => (
+                  <ProjectCard key={project.name} project={project} index={index} />
+                ))}
+              </div>
+              <h3 className="mt-16">
+                <RansomText text="PERSONAL PROJECTS" className="text-2xl md:text-4xl" />
+              </h3>
+              <div className="mt-14 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 px-2 pb-6">
+                {personalProjects.map((project, index) => (
+                  <ProjectCard key={project.name} project={project} index={index} />
                 ))}
               </div>
             </>
           ) : (
             /* Real world projects */
             <div>
-              <span className="rw-section-label">Projects</span>
-              <hr className="rw-rule" />
-              <div>
-                {projects.map((project, i) => (
-                  <div key={project.name}>
-                    <div className="rw-project-row">
-                      <div className="flex flex-col gap-0.5">
-                        <div className="flex items-baseline gap-2 flex-wrap">
-                          <a href={project.link} target="_blank" rel="noopener noreferrer" className="rw-project-name">
-                            {project.name}
-                          </a>
-                          {project.badge && (
-                            <span className="rw-upcoming-tag">{project.badge}</span>
-                          )}
-                        </div>
-                        <span className="text-p5-white/45 text-sm">{project.description}</span>
-                      </div>
-                      <a href={project.link} target="_blank" rel="noopener noreferrer" className="rw-project-link" aria-label="Open project">
-                        ↗
-                      </a>
-                    </div>
-                    {i < projects.length - 1 && <hr className="rw-rule-thin" />}
-                  </div>
-                ))}
-              </div>
+              <RealWorldProjects label="Hackathon Wins" items={hackathonProjects} />
+              <RealWorldProjects label="Personal Projects" items={personalProjects} />
             </div>
           )}
         </div>
@@ -487,11 +551,12 @@ export default function Home() {
             </>
           ) : (
             /* Real world contact */
-            <div>
+            <div className="rw-group">
               <span className="rw-section-label">Contact</span>
-              <hr className="rw-rule" />
-              <p className="rw-contact-intro">Let&apos;s work together.</p>
-              <a href="mailto:jacobcho99@gmail.com" className="rw-email-link">jacobcho99@gmail.com</a>
+              <div className="pt-2.5">
+                <p className="rw-contact-intro">Let&apos;s work together.</p>
+                <a href="mailto:jacobcho99@gmail.com" className="rw-email-link">jacobcho99@gmail.com</a>
+              </div>
             </div>
           )}
         </div>

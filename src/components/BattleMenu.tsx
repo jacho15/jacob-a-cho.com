@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { useTheme } from '@/context/ThemeContext'
+import SocialBadges from '@/components/p5/SocialBadges'
 
 interface BattleMenuProps {
   isOpen: boolean
@@ -10,10 +11,10 @@ interface BattleMenuProps {
 }
 
 const battleItems = [
-  { id: 'hero',       label: 'HOME',       battleTerm: 'PERSONA' },
-  { id: 'experience', label: 'EXPERIENCE', battleTerm: 'SKILL' },
-  { id: 'projects',   label: 'PROJECTS',   battleTerm: 'GUARD' },
-  { id: 'contact',    label: 'CONTACT',    battleTerm: 'ITEMS' },
+  { id: 'hero',       label: 'HOME' },
+  { id: 'experience', label: 'EXPERIENCE' },
+  { id: 'projects',   label: 'PROJECTS' },
+  { id: 'contact',    label: 'CONTACT' },
 ]
 
 function scrollToSection(id: string) {
@@ -130,16 +131,21 @@ function MetaverseMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
                   >
                     <div className="px-8 py-5 text-center">
                       <span className="block font-heading text-4xl tracking-widest skew-x-[12deg]">
-                        {item.battleTerm}
-                      </span>
-                      <span className="block text-sm opacity-80 tracking-[0.3em] mt-1 skew-x-[12deg]">
-                        {'// '}{item.label}
+                        {item.label}
                       </span>
                     </div>
                   </button>
                 </motion.div>
               )
             })}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: staggerDelay * battleItems.length, duration: 0.3 }}
+              className="mt-2"
+            >
+              <SocialBadges />
+            </motion.div>
           </div>
         </motion.div>
       )}

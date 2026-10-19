@@ -3,12 +3,13 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { useActiveSection } from '@/hooks/useActiveSection'
+import SocialBadges from '@/components/p5/SocialBadges'
 
 const ITEMS = [
-  { id: 'hero',       term: 'PERSONA', label: 'HOME',       skewX: -6,  skewY: 10,  size: 72, offsetY: 0 },
-  { id: 'experience', term: 'SKILL',   label: 'EXPERIENCE', skewX: -11, skewY: -10, size: 58, offsetY: 10 },
-  { id: 'projects',   term: 'GUARD',   label: 'PROJECTS',   skewX: 0,   skewY: -4,  size: 62, offsetY: 8 },
-  { id: 'contact',    term: 'ITEMS',   label: 'CONTACT',    skewX: -3,  skewY: 5,   size: 66, offsetY: 10 },
+  { id: 'hero',       label: 'HOME',       skewX: -6,  skewY: 10,  size: 70, offsetY: 0 },
+  { id: 'experience', label: 'EXPERIENCE', skewX: -11, skewY: -10, size: 46, offsetY: 10 },
+  { id: 'projects',   label: 'PROJECTS',   skewX: 0,   skewY: -4,  size: 54, offsetY: 8 },
+  { id: 'contact',    label: 'CONTACT',    skewX: -3,  skewY: 5,   size: 60, offsetY: 10 },
 ]
 
 function scrollToSection(id: string) {
@@ -181,7 +182,7 @@ export default function P5SideMenu() {
                     transition:    'color 0.12s ease',
                   }}
                 >
-                  {item.term}
+                  {item.label}
                 </span>
 
                 {isActive && (
@@ -194,7 +195,7 @@ export default function P5SideMenu() {
                       color:         '#ff2a2a',
                     }}
                   >
-                    {item.term}
+                    {item.label}
                   </span>
                 )}
               </button>
@@ -202,6 +203,17 @@ export default function P5SideMenu() {
           )
         })}
       </nav>
+
+      {/* Social links */}
+      <motion.div
+        className="absolute bottom-[76px] left-5"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.9, duration: 0.4 }}
+        style={{ zIndex: 11 }}
+      >
+        <SocialBadges />
+      </motion.div>
 
       {/* Keyboard hints */}
       <motion.div
