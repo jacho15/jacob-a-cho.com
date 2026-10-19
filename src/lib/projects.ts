@@ -23,7 +23,6 @@ export const projects: Project[] = [
   {
     name: 'UNO Q Pipeline',
     category: 'personal',
-    link: 'https://github.com/jacho15/uno_q_pipeline',
     description: 'Low-power smart camera on an Arduino UNO Q that sleeps until motion wakes it, using up to 49% less energy than an always-on camera.',
   },
   {
