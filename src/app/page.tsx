@@ -22,9 +22,9 @@ interface Experience {
 
 const experiences: Experience[] = [
   {
-    title: 'Tech Fellow (AI301)',
+    title: 'Tech Fellow (TIP101/102, AI301)',
     company: 'CodePath',
-    period: 'Sep 2026 – Present',
+    period: 'Sep 2025 – Present',
     logo: '/logos/codepath.png',
   },
   {
@@ -38,12 +38,6 @@ const experiences: Experience[] = [
     company: 'Capital One',
     period: 'June 2026 – Aug 2026',
     logo: '/logos/capital-one.png',
-  },
-  {
-    title: 'Tech Fellow (TIP101/102)',
-    company: 'CodePath',
-    period: 'Sep 2025 – April 2026',
-    logo: '/logos/codepath.png',
   },
   {
     title: 'Software Engineer Intern',
