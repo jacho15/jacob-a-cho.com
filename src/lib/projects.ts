@@ -12,13 +12,13 @@ export const projects: Project[] = [
     category: 'hackathon',
     link: 'https://devpost.com/software/otto-zslcf2',
     description: 'Scan your room into 3D and shop for furniture that actually fits, with AI agents that can only buy what you approve.',
-    badge: '1st Place Applied Intelligence Track - UCLA AI Hackathon',
+    badge: '1st Place Applied Intelligence Track - AI Hackathon by LA Hacks 2026',
   },
   {
     name: 'Chilly Ship',
     category: 'hackathon',
     description: 'Compressed a satellite image classifier to 88% smaller and 5× faster while losing under half a point of accuracy.',
-    badge: '2nd Place Software Track - IEEE Minimalist AI Hackathon',
+    badge: '2nd Place Software Track - Minimalist Edge AI Competition (ACM/IEEE SEC) 2026',
   },
   {
     name: 'UNO Q Pipeline',
