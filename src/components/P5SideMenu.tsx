@@ -7,13 +7,14 @@ import SocialBadges from '@/components/p5/SocialBadges'
 
 const ITEMS = [
   { id: 'hero',       label: 'HOME',       skewX: -6,  skewY: 10,  size: 70, offsetY: 0 },
+  { id: 'about',      label: 'ABOUT',      skewX: -8,  skewY: 6,   size: 50, offsetY: 8 },
   { id: 'experience', label: 'EXPERIENCE', skewX: -11, skewY: -10, size: 46, offsetY: 10 },
   { id: 'projects',   label: 'PROJECTS',   skewX: 0,   skewY: -4,  size: 54, offsetY: 8 },
   { id: 'contact',    label: 'CONTACT',    skewX: -3,  skewY: 5,   size: 60, offsetY: 10 },
 ]
 
 function scrollToSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  document.getElementById(id)?.scrollIntoView()
 }
 
 export default function P5SideMenu() {

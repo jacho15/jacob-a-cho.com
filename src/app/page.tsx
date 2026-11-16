@@ -62,6 +62,8 @@ const involvements: Experience[] = [
   },
 ]
 
+const aboutText = 'Senior at USC researching GPU + FPGA co-design for MoE inference. I build projects and win hackathons.'
+
 const hackathonProjects = projects.filter(p => p.category === 'hackathon')
 const personalProjects = projects.filter(p => p.category === 'personal')
 
@@ -255,7 +257,7 @@ function HeroButtons({ isMetaverse, toggleTheme }: { isMetaverse: boolean; toggl
 export default function Home() {
   const { isMetaverse, toggleTheme } = useTheme()
 
-  // Contact form state (metaverse mode only)
+  // Contact form state (both modes)
   const [formData, setFormData] = useState({ name: '', email: '', message: '', phone: '' })
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
@@ -380,6 +382,27 @@ export default function Home() {
       </section>
 
       {isMetaverse && <TornDivider />}
+
+      {/* ── ABOUT ────────────────────────────────────────────────────────── */}
+      <section id="about" className="py-16 md:py-24">
+        <div className="container">
+          {isMetaverse ? (
+            <>
+              <h2>
+                <RansomText text="ABOUT" className="text-4xl lg:text-6xl" />
+              </h2>
+              <p className="mt-12 text-p5-white/70">{aboutText}</p>
+            </>
+          ) : (
+            <div className="rw-group">
+              <span className="rw-section-label">About</span>
+              <div className="pt-2.5">
+                <p className="rw-about">{aboutText}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* ── EXPERIENCE ───────────────────────────────────────────────────── */}
       <section id="experience" className="py-16 md:py-24">
@@ -549,6 +572,32 @@ export default function Home() {
               <span className="rw-section-label">Contact</span>
               <div className="pt-2.5">
                 <p className="rw-contact-intro">Let&apos;s work together.</p>
+                <form onSubmit={handleSubmit} className="rw-form">
+                  <div className="hidden" aria-hidden="true" style={{ display: 'none' }}>
+                    <input type="text" id="rw-phone" name="phone" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} tabIndex={-1} autoComplete="off" />
+                  </div>
+                  <div className="rw-field">
+                    <label htmlFor="rw-name" className="rw-field-label">Name</label>
+                    <input type="text" id="rw-name" name="name" autoComplete="name" required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="rw-input" />
+                  </div>
+                  <div className="rw-field">
+                    <label htmlFor="rw-email" className="rw-field-label">Email</label>
+                    <input type="email" id="rw-email" name="email" autoComplete="email" required value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="rw-input" />
+                  </div>
+                  <div className="rw-field">
+                    <label htmlFor="rw-message" className="rw-field-label">Message</label>
+                    <textarea id="rw-message" name="message" required rows={3} value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} className="rw-input" />
+                  </div>
+                  <div className="rw-form-actions">
+                    <button type="submit" disabled={status === 'loading'} className="rw-send">
+                      {status === 'loading' ? 'Sending…' : 'Send →'}
+                    </button>
+                    <span role="status">
+                      {status === 'success' && <span className="rw-form-note">Sent.</span>}
+                      {status === 'error' && <span className="rw-form-note">{errorMessage}</span>}
+                    </span>
+                  </div>
+                </form>
                 <a href="mailto:jacobcho99@gmail.com" className="rw-email-link">jacobcho99@gmail.com</a>
               </div>
             </div>

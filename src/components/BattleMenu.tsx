@@ -12,13 +12,14 @@ interface BattleMenuProps {
 
 const battleItems = [
   { id: 'hero',       label: 'HOME' },
+  { id: 'about',      label: 'ABOUT' },
   { id: 'experience', label: 'EXPERIENCE' },
   { id: 'projects',   label: 'PROJECTS' },
   { id: 'contact',    label: 'CONTACT' },
 ]
 
 function scrollToSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  document.getElementById(id)?.scrollIntoView()
 }
 
 const staggerDelay = 0.08
@@ -156,6 +157,7 @@ function MetaverseMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
 function RealWorldDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const navItems = [
     { id: 'hero',       label: 'Home' },
+    { id: 'about',      label: 'About' },
     { id: 'projects',   label: 'Projects' },
     { id: 'experience', label: 'Experience' },
     { id: 'contact',    label: 'Contact' },

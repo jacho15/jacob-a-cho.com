@@ -9,6 +9,7 @@ import BattleMenu from './BattleMenu'
 
 const navItems = [
   { href: '#hero',       id: 'hero',       label: 'HOME' },
+  { href: '#about',      id: 'about',      label: 'ABOUT' },
   { href: '#experience', id: 'experience', label: 'EXPERIENCE' },
   { href: '#projects',   id: 'projects',   label: 'PROJECTS' },
   { href: '#contact',    id: 'contact',    label: 'CONTACT' },

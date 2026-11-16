@@ -20,7 +20,7 @@ export default function TopBadge() {
     <AnimatePresence>
       {visible && (
         <motion.button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => window.scrollTo({ top: 0 })}
           className="fixed bottom-5 right-5 z-40 w-[74px] h-[74px] comic-burst bg-p5-red flex items-center justify-center"
           aria-label="Back to top"
           initial={{ scale: 0, rotate: -60 }}

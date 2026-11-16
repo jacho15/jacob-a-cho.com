@@ -2,16 +2,18 @@
 
 import { useState, useEffect } from 'react'
 
-const SECTION_IDS = ['hero', 'experience', 'projects', 'contact']
+const SECTION_IDS = ['hero', 'about', 'experience', 'projects', 'contact']
 
 export function useActiveSection(): string {
   const [activeSection, setActiveSection] = useState('hero')
 
   useEffect(() => {
-    // Active = last section whose top has scrolled past 35% of the viewport.
-    // Works for sections taller than the screen, unlike an intersection ratio.
+    // Active = last section whose top has scrolled past a line 120px from the top
+    // (just below the 80px nav). Works for sections taller than the screen, unlike an
+    // intersection ratio, and a fixed line keeps short sections like About active
+    // after a nav click, whatever the window height.
     const update = () => {
-      const line = window.innerHeight * 0.35
+      const line = 120
       let current = SECTION_IDS[0]
       SECTION_IDS.forEach(id => {
         const el = document.getElementById(id)
