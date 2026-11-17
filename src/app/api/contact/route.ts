@@ -27,7 +27,13 @@ export async function POST(request: Request) {
     }
 
     const ip = request.headers.get('x-forwarded-for') || 'unknown'
-    const { success } = await ratelimit.limit(ip)
+    // Fail open: if Redis is unreachable, still let the message through
+    let success = true
+    try {
+      ;({ success } = await ratelimit.limit(ip))
+    } catch (error) {
+      console.error('Rate limit check failed:', error)
+    }
 
     if (!success) {
       return NextResponse.json(
