@@ -1,12 +1,5 @@
 import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
-import { Ratelimit } from '@upstash/ratelimit'
-import { Redis } from '@upstash/redis'
-
-const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(3, '1 h'),
-})
 
 function escapeHtml(str: string): string {
   return str
@@ -21,25 +14,9 @@ export async function POST(request: Request) {
   try {
     const { name, email, message, phone } = await request.json()
 
-    // Honeypot check — before rate limiting so bots don't consume quota
+    // Honeypot check
     if (phone) {
       return NextResponse.json({ success: true, id: 'filtered' })
-    }
-
-    const ip = request.headers.get('x-forwarded-for') || 'unknown'
-    // Fail open: if Redis is unreachable, still let the message through
-    let success = true
-    try {
-      ;({ success } = await ratelimit.limit(ip))
-    } catch (error) {
-      console.error('Rate limit check failed:', error)
-    }
-
-    if (!success) {
-      return NextResponse.json(
-        { error: 'Too many requests. Please try again later.' },
-        { status: 429 }
-      )
     }
 
     const resend = new Resend(process.env.RESEND_API_KEY)

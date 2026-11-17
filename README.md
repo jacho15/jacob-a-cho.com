@@ -10,7 +10,7 @@ A Persona 5-inspired developer portfolio with animated UI, project showcases, an
 
 - **Persona 5-Inspired Interface**: Bold typography, themed components, and animated transitions.
 - **Responsive Project Showcase**: Clean, mobile-friendly sections for projects, skills, and experience.
-- **Secure Contact Form**: Server-side validation, honeypot filtering, and Upstash Redis rate limiting for anti-spam.
+- **Secure Contact Form**: Server-side validation and honeypot filtering for anti-spam.
 - **Email Delivery with Resend**: Contact submissions are sent directly to your inbox via Resend API.
 - **Dynamic Motion Effects**: Framer Motion-driven interactions across core pages and components.
 
@@ -21,7 +21,6 @@ A Persona 5-inspired developer portfolio with animated UI, project showcases, an
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Framer Motion](https://img.shields.io/badge/Framer--Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
 ![Resend](https://img.shields.io/badge/Resend-000000?style=for-the-badge&logo=resend&logoColor=white)
-![Upstash Redis](https://img.shields.io/badge/Upstash_Redis-00E9A3?style=for-the-badge&logo=redis&logoColor=111111)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
 ## Getting Started
